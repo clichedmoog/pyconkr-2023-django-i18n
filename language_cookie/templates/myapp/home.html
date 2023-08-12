@@ -1,0 +1,61 @@
+{% load i18n l10n %}
+
+<p>{% translate 'Hello' %}</p>
+
+
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% get_language_info for LANGUAGE_CODE as LANGUAGE_INFO %}
+<p>Current language code  is "{{ LANGUAGE_CODE }}".</p>
+<p>Language info for "{{ LANGUAGE_CODE }}" is:</p>
+<ul>
+{% for key, value in LANGUAGE_INFO.items %}
+    <li>{{ key }}: {{ value }}</li>
+{% endfor %}
+</ul>
+
+<p>Available languages are:</p>
+<ul>
+{% for language in languages %}
+    <li>{{ language.name_local }}({{ language.code }})</li>
+{% endfor %}
+</ul>
+
+<p>Filters</p>
+<dl>
+  <dt>date</dt>
+  <dd>{{ now|date }}</dd>
+  <dt>time</dt>
+  <dd>{{ now|time }}</dd>
+  <dt>ISO datetime</dt>
+  <dd>{{ now|date:"c" }}</dd>
+  <dt>JS datetime</dt>
+  <dd class="datetime">{{ now|date:"c" }}</dd>
+  <dt>localize</dt>
+  <dd>{{ number|localize }}</dd>
+  <dt>floatformat</dt>
+  <dd>{{ number|floatformat }}</dd>
+</dl>
+
+
+<form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+  <input name="next" type="hidden" value="{{ redirect_to }}">
+  <select name="language">
+    {% for language in languages %}
+    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+      {{ language.name_local }} ({{ language.code }})
+    </option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="Go">
+</form>
+
+<script>
+  // Convert all datetime elements to local timezone
+  var datetimes = document.getElementsByClassName('datetime');
+  for (var i = 0; i < datetimes.length; i++) {
+    datetimes[i].innerHTML = new Date(datetimes[i].innerHTML).toLocaleString();
+  }
+</script>

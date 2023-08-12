@@ -1,7 +1,11 @@
 Django==4.2.3
 mysqlclient==2.2.0
 
+# L10N support packages
+Babel==2.12.1
+phonenumbers==8.13.15
 
+# Model translation packages
 django-parler==2.3
 django-modeltranslation==0.18.1
 django-modeltrans==0.7.4
