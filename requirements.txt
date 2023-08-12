@@ -1,0 +1,9 @@
+Django==4.2.3
+mysqlclient==2.2.0
+
+
+django-parler==2.3
+django-modeltranslation==0.18.1
+django-modeltrans==0.7.4
+django_translated_fields==0.12.0
+django-vinaigrette==2.0.1
